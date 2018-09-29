@@ -1,0 +1,87 @@
+ <?php $__env->startSection('content'); ?>
+<ul class="nav nav-tabs">
+	<li class="active"><a href="#tab-general" data-toggle="tab"><?php echo e(Lang::get('admin/modal.general')); ?></a></li>
+</ul>
+<form class="form-horizontal" method="post" action="" autocomplete="off">
+	<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>" />
+	<div class="tab-content">
+		<div class="tab-pane active" id="tab-general">
+			<div class="col-md-12">
+				<div
+					class="form-group <?php echo e($errors->has('name') ? 'has-error' : ''); ?>">
+					<label class="col-md-2 control-label" for="name"><?php echo Lang::get('admin/role.name'); ?></label>
+					<div class="col-md-10">
+						<input class="form-control" type="text" name="name" id="name"
+							value="<?php echo e(Input::old('name', isset($role) ? $role->name : null)); ?>" />
+						<?php echo $errors->first('name', '<span class="help-inline">:message</span>'); ?>
+
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="col-md-2 control-label" for="name"><?php echo Lang::get('admin/role.choose_role'); ?></label>
+					<div class="col-md-10">
+						<select tabindex="3" name="permission[]" id="permission"
+							multiple="" style="width: 350px;"
+							data-placeholder="<?php echo Lang::get('admin/role.choose_role'); ?>">
+							<optgroup label="<?php echo Lang::get('admin/role.userrole'); ?>">
+								<?php foreach($permissionsUser as $permission): ?>
+								<option value="<?php echo e($permission['id']); ?>"
+									<?php foreach($permisionsadd
+									as $item): ?>
+		            		<?php if($item['permission_id']==$permission[
+									'id']): ?> selected='selected'
+									;
+		            		<?php endif; ?>
+		            	<?php endforeach; ?>><?php echo e($permission['display_name']); ?></option>
+								<?php endforeach; ?>
+							</optgroup>
+							<optgroup label="<?php echo Lang::get('admin/role.adminrole'); ?>">
+								<?php foreach($permissionsAdmin as $permission): ?>
+								<option value="<?php echo e($permission['id']); ?>"
+									<?php foreach($permisionsadd
+									as $item): ?>
+		            		<?php if($item['permission_id']==$permission[
+									'id']): ?> selected='selected'
+									;
+		            		<?php endif; ?>
+		            	<?php endforeach; ?>><?php echo $permission['display_name']; ?></option>
+								<?php endforeach; ?>
+							</optgroup>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-md-12">
+			<button type="reset" class="btn btn-sm btn-warning close_popup">
+				<span class="glyphicon glyphicon-ban-circle"></span> <?php echo e(Lang::get("admin/modal.cancel")); ?>
+
+			</button>
+			<button type="reset" class="btn btn-sm btn-default">
+				<span class="glyphicon glyphicon-remove-circle"></span> <?php echo e(Lang::get("admin/modal.reset")); ?>
+
+			</button>
+			<button type="submit" class="btn btn-sm btn-success">
+				<span class="glyphicon glyphicon-ok-circle"></span> 
+				    <?php if(isset($role)): ?> 
+				        <?php echo e(Lang::get("admin/modal.edit")); ?> 
+				    <?php else: ?> 
+				        <?php echo e(Lang::get("admin/modal.create")); ?> 
+				    <?php endif; ?>
+			</button>
+		</div>
+	</div>
+</form>
+<?php $__env->stopSection(); ?> <?php $__env->startSection('scripts'); ?>
+<script type="text/javascript">
+	$(function() {
+		$("#permission").select2()
+	});
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,14 @@
+ <?php $__env->startSection('title'); ?> <?php echo e($video_album->name); ?> :: @parent  <?php $__env->stopSection(); ?> <?php $__env->startSection('content'); ?>
+<h3><?php echo e($video_album->name); ?></h3>
+
+<div id="mygallery">
+	<?php foreach($videos as $item): ?>
+	<iframe width="0" height="0"></iframe>
+	<iframe width="480" height="360"
+		src="//www.youtube.com/embed/<?php echo e($item -> youtube); ?>" frameborder="0"
+		allowfullscreen></iframe>
+	<?php endforeach; ?>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('site.layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,36 @@
+ <?php /* Web site Title */ ?>
+<?php $__env->startSection('title'); ?> <?php echo e(Lang::get('site/user.change_password')); ?> ::
+@parent  <?php $__env->stopSection(); ?> <?php /* Content */ ?> <?php $__env->startSection('content'); ?>
+<div class="page-header">
+	<h1><?php echo e(Lang::get('site/user.change_password')); ?></h1>
+</div>
+<form method="POST" action="<?php echo e(URL::to('auth/changepassword')); ?>"
+	accept-charset="UTF-8">
+	<!-- CSRF Token -->
+	<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>" />
+	<!-- ./ csrf token -->
+	<fieldset>
+		<div class="form-group">
+			<label for="password"><?php echo e(Lang::get('site/user.password')); ?></label>
+			<input class="form-control"
+				placeholder="<?php echo e(Lang::get('site/user.password')); ?>"
+				type="password" name="password" id="password">
+		</div>
+		<div class="form-group">
+			<label for="password_confirmation"><?php echo e(Lang::get('site/user.password_confirmation')); ?></label> <input
+				class="form-control"
+				placeholder="<?php echo e(Lang::get('site/user.password_confirmation')); ?>"
+				type="password" name="password_confirmation"
+				id="password_confirmation">
+		</div>
+		<?php if($errors->has()): ?> <?php foreach($errors->all() as $error): ?>
+		<div class="alert alert-danger"><?php echo e($error); ?></div>
+		<?php endforeach; ?> <?php endif; ?>
+		<div class="form-actions form-group">
+			<button type="submit" class="btn btn-primary"><?php echo e(Lang::get('site/user.submit')); ?></button>
+		</div>
+	</fieldset>
+</form>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('site.layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

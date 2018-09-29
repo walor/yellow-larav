@@ -1,0 +1,138 @@
+ <?php /* Content */ ?> <?php $__env->startSection('content'); ?>
+<!-- Tabs -->
+<ul class="nav nav-tabs">
+	<li class="active"><a href="#tab-general" data-toggle="tab"> <?php echo e(Lang::get("admin/modal.general")); ?></a></li>
+</ul>
+<!-- ./ tabs -->
+<?php /* Edit Blog Form */ ?>
+<form class="form-horizontal" id="fupload" enctype="multipart/form-data"
+	method="post"
+	action="<?php if(isset($photo)): ?><?php echo e(URL::to('admin/photo/'.$photo->id.'/edit')); ?>
+
+	        <?php else: ?><?php echo e(URL::to('admin/photo/create')); ?><?php endif; ?>"
+	autocomplete="off">
+	<!-- CSRF Token -->
+	<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>" />
+	<!-- ./ csrf token -->
+	<!-- Tabs Content -->
+	<div class="tab-content">
+		<!-- General tab -->
+		<div class="tab-pane active" id="tab-general">
+			<div class="tab-pane active" id="tab-general">
+				<div
+					class="form-group <?php echo e($errors->has('language_id') ? 'has-error' : ''); ?>">
+					<div class="col-md-12">
+						<label class="control-label" for="language_id"><?php echo e(Lang::get("admin/admin.language")); ?></label> <select
+							style="width: 100%" name="language_id" id="language_id"
+							class="form-control"> <?php foreach($languages as $item): ?>
+							<option value="<?php echo e($item->id); ?>"
+								<?php if(!empty($language)): ?>
+                                        <?php if($item->id==$language): ?>
+								selected="selected" <?php endif; ?> <?php endif; ?> ><?php echo e($item->name); ?></option>
+							<?php endforeach; ?>
+						</select>
+					</div>
+				</div>
+				<div
+					class="form-group <?php echo e($errors->has('name') ? 'has-error' : ''); ?>">
+					<div class="col-md-12">
+						<label class="control-label" for="name"> <?php echo e(Lang::get("admin/modal.title")); ?></label> <input
+							class="form-control" type="text" name="name" id="name"
+							value="<?php echo e(Input::old('name', isset($photo) ? $photo->name : null)); ?>" />
+						<?php echo $errors->first('name', '<span class="help-block">:message </span>'); ?>
+
+					</div>
+				</div>
+				<div
+					class="form-group <?php echo e($errors->has('photo_album_id') ? 'error' : ''); ?>">
+					<div class="col-md-12">
+						<label class="control-label" for="photo_album_id"><?php echo e(Lang::get("admin/photo.album")); ?></label> <select
+							style="width: 100%" name="photo_album_id" id="photo_album_id"
+							class="form-control"> <?php foreach($photoalbums as $item): ?>
+							<option value="<?php echo e($item->id); ?>"
+								<?php if(!empty($photoalbum)): ?>
+                                        <?php if($item->id==$photoalbum): ?>
+								selected="selected" <?php endif; ?> <?php endif; ?> ><?php echo e($item->name); ?></option>
+							<?php endforeach; ?>
+						</select>
+					</div>
+				</div>
+				<div
+					class="form-group <?php echo e($errors->has('slider') ? 'has-error' : ''); ?>">
+					<div class="col-lg-12">
+						<label class="control-label" for="slider"><?php echo e(Lang::get('admin/photo.slider')); ?></label> <label class="radio">
+							<?php echo Form::radio('slider', 1, (Input::old('slider') == '1' ||
+							(isset($photo) && $photo->slider == '1')) ? true : false,
+							array('id'=>'slider', 'class'=>'radio')); ?> <?php echo e(Lang::get('admin/admin.yes')); ?> </label> <label class="radio">
+							<?php echo Form::radio('slider', 0, (Input::old('slider') == '0' ||
+							(isset($photo) && $photo->slider == '0') || !isset($photo)) ?
+							true : false, array('id'=>'slider', 'class'=>'radio')); ?> <?php echo e(Lang::get('admin/admin.no')); ?> </label>
+
+					</div>
+				</div>
+				<div
+					class="form-group <?php echo e($errors->has('album_cover') ? 'has-error' : ''); ?>">
+					<div class="col-lg-12">
+						<label class="control-label" for="album_cover"><?php echo e(Lang::get('admin/photo.album_cover')); ?></label> <label
+							class="radio"> <?php echo Form::radio('album_cover', 1,
+							(Input::old('album_cover') == '1' || (isset($photo) &&
+							$photo->album_cover == '1')) ? true : false,
+							array('id'=>'showtitle', 'class'=>'radio')); ?> <?php echo e(Lang::get('admin/admin.yes')); ?> </label> <label class="radio">
+							<?php echo Form::radio('album_cover', 0, (Input::old('album_cover') ==
+							'0' || (isset($photo) && $photo->album_cover == '0') ||
+							!isset($photo)) ? true : false, array('id'=>'showtitle',
+							'class'=>'radio')); ?> <?php echo Lang::get('admin/admin.no'); ?> </label>
+
+					</div>
+				</div>
+				<div
+					class="form-group <?php echo e($errors->has('content') ? 'has-error' : ''); ?>">
+					<div class="col-md-12">
+						<label class="control-label" for="description"><?php echo e(Lang::get("admin/photo.description")); ?></label>
+						<textarea class="form-control full-width wysihtml5"
+							name="description" rows="10"><?php echo e(Input::old('content', isset($photo) ? $photo->description : null)); ?></textarea>
+						<?php echo $errors->first('description', '<label class="control-label">:message</label>'); ?>
+
+					</div>
+				</div>
+
+				<div
+					class="form-group <?php echo e($errors->has('image') ? 'error' : ''); ?>">
+					<div class="col-lg-12">
+						<label class="control-label" for="image"><?php echo e(Lang::get("admin/photo.picture")); ?></label> <input name="image"
+							type="file" class="uploader" id="image" value="Upload" />
+					</div>
+
+				</div>
+				<!-- ./ general tab -->
+			</div>
+			<!-- ./ tabs content -->
+
+			<!-- Form Actions -->
+
+			<div class="form-group">
+				<div class="col-md-12">
+					<button type="reset" class="btn btn-sm btn-warning close_popup">
+						<span class="glyphicon glyphicon-ban-circle"></span> <?php echo e(Lang::get("admin/modal.cancel")); ?>
+
+					</button>
+					<button type="reset" class="btn btn-sm btn-default">
+						<span class="glyphicon glyphicon-remove-circle"></span> <?php echo e(Lang::get("admin/modal.reset")); ?>
+
+					</button>
+					<button type="submit" class="btn btn-sm btn-success">
+						<span class="glyphicon glyphicon-ok-circle"></span>
+						<?php if(isset($photo)): ?> 
+						  <?php echo e(Lang::get("admin/modal.edit")); ?> 
+						<?php else: ?> 
+						  <?php echo e(Lang::get("admin/modal.create")); ?> 
+						 <?php endif; ?>
+					</button>
+				</div>
+			</div>
+			<!-- ./ form actions -->
+
+</form>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
